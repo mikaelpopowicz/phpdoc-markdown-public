@@ -1,29 +1,28 @@
-## {{ class.name }}
+{{ node.summary|raw }}
 
-{{ class.summary|raw }}
+{{ node.description|raw }}
 
-{{ class.description|raw }}
-
-* Full name: {{ class.FullyQualifiedStructuralElementName }}
-{% if class.parent %}* Parent class: {{ class.parent.FullyQualifiedStructuralElementName }}
+* Full name: {{ node.FullyQualifiedStructuralElementName }}
+{% if node.parent %}* Parent class: {{ node.parent.FullyQualifiedStructuralElementName }}
+{{- node }}
 {% endif %}
-{% if class.interfaces is not empty %}* This class implements: {{ class.interfaces|join(', ')|raw }}
+{% if node.interfaces is not empty %}* This class implements: {{ node.interfaces|join(', ')|raw }}
 {% endif %}
-{% if class.deprecated %}* **Warning:** this class is **deprecated**. This means that this class will likely be removed in a future version.
+{% if node.deprecated %}* **Warning:** this class is **deprecated**. This means that this class will likely be removed in a future version.
 {% endif %}
 
-{% if class.tags.see is not empty or class.tags.link is not empty %}
+{% if node.tags.see is not empty or class.tags.link is not empty %}
 **See Also:**
 
-{% for see in class.tags.see %}
+{% for see in node.tags.see %}
 * {{ see.reference }} {% if see.description %}- {{ see.description|raw }}{% endif %}
 {% endfor %}
-{% for link in class.tags.link %}
+{% for link in node.tags.link %}
 * {{ link.link }} {% if link.description and link.description != link.link %}- {{ link.description|raw }}{% endif %}
 {% endfor %}
 
 {% endif %}{# class.tags.see || class.tags.link #}
 
-{% for method in publicMethods(class) %}
+{% for method in node.inheritedMethods.merge(node.methods.merge(node.magicMethods)) %}
 {% include 'method.md.twig' %}
 {% endfor %}

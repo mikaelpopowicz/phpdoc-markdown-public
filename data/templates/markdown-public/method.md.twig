@@ -1,15 +1,15 @@
-### {{ method.name }}
+## {% if (method.visibility == 'public') %}:white_check_mark:{% elseif(method.visibility == 'protected') %}:large_blue_circle:{% else %}:red_circle:{% endif %} {{ method.name }}
 
 {{ method.summary|raw }}
 
 {# Method signature #}
 ```php
-{{ class.name }}::{{ method.name }}( {% for argument in method.arguments %}
+{{ method.name }}({% for argument in method.arguments %}
 {{- argument.types ? argument.types|join('|')~' ' }}
 {{- argument.byReference ? '&' }}
 {{- argument.name }}{{ argument.default ? ' = '~argument.default }}
 {%- if not loop.last %}, {% endif %}
-{%- endfor %} )
+{%- endfor %})
 {{- method.response.types ? ': '~method.response.types|join('|') }}
 ```
 
